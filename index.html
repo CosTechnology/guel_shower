@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chá de Bebê do Miguel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+        }
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            height: 700px;
+            background: #0a192f;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin: auto;
+        }
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite ease-in-out;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.5; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+        .scene {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            transform: translateY(20px);
+        }
+        .scene.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .scene.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .rocket {
+            width: 80px;
+            height: auto;
+            animation: launch 5s ease-in-out forwards;
+            position: absolute;
+            bottom: -150px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        @keyframes launch {
+            0% { bottom: -150px; }
+            20% { bottom: 50%; transform: translateX(-50%) rotate(0deg); }
+            40% { bottom: 55%; transform: translateX(-50%) rotate(5deg); }
+            60% { bottom: 60%; transform: translateX(-50%) rotate(-5deg); }
+            100% { bottom: 120%; transform: translateX(-50%) rotate(0deg); }
+        }
+        .astronaut {
+            width: 150px;
+            height: auto;
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-25px); }
+        }
+        .planet {
+            position: absolute;
+            border-radius: 50%;
+        }
+        .planet.p1 {
+            width: 80px;
+            height: 80px;
+            background: #ffcc80;
+            top: 15%;
+            left: 10%;
+            opacity: 0.7;
+        }
+        .planet.p2 {
+            width: 50px;
+            height: 50px;
+            background: #bcaaa4;
+            bottom: 20%;
+            right: 15%;
+            opacity: 0.6;
+        }
+        .text-shadow {
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+        .controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+        }
+        .control-btn {
+            background-color: rgba(255,255,255,0.2);
+            border: 1px solid white;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 9999px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .control-btn:hover {
+            background-color: rgba(255,255,255,0.4);
+        }
+    </style>
+</head>
+<body class="bg-gray-800 flex items-center justify-center min-h-screen p-4">
+
+    <div class="video-container" id="video-container">
+        <!-- Stars Background -->
+        <div id="stars-bg"></div>
+        
+        <!-- Planets -->
+        <div class="planet p1"></div>
+        <div class="planet p2"></div>
+
+        <!-- Scene 1: Intro -->
+        <div id="scene1" class="scene active">
+            <h1 class="text-3xl font-bold text-shadow">Prepare-se para uma missão especial!</h1>
+            <div id="rocket-container">
+                <!-- Rocket SVG -->
+                <svg class="rocket" viewBox="0 0 100 150" xmlns="http://www.w3.org/2000/svg">
+                    <g>
+                        <!-- Body -->
+                        <path d="M50 0 L75 50 L70 130 L30 130 L25 50 Z" fill="#E0E0E0"/>
+                        <!-- Nose cone -->
+                        <path d="M50 0 L25 50 L75 50 Z" fill="#D32F2F"/>
+                         <!-- Window -->
+                        <circle cx="50" cy="60" r="12" fill="#81D4FA" stroke="#424242" stroke-width="2"/>
+                        <!-- Fins -->
+                        <path d="M70 100 L95 140 L70 130 Z" fill="#D32F2F"/>
+                        <path d="M30 100 L5 140 L30 130 Z" fill="#D32F2F"/>
+                    </g>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Scene 2: Main Title -->
+        <div id="scene2" class="scene">
+            <p class="text-xl mb-2 text-shadow">Bem-vindo ao</p>
+            <h1 class="text-4xl font-bold mb-4 text-shadow">Chá de Bebê</h1>
+            <p class="text-2xl font-bold text-cyan-300 text-shadow">do nosso pequeno astronauta</p>
+            <h2 class="text-5xl font-bold mt-4 text-shadow">Miguel</h2>
+            <p class="text-3xl mt-2 text-shadow">Santos Cosmai</p>
+        </div>
+
+        <!-- Scene 3: Astronaut -->
+        <div id="scene3" class="scene">
+             <!-- Astronaut SVG -->
+            <svg class="astronaut" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <g>
+                    <!-- Helmet -->
+                    <circle cx="100" cy="80" r="45" fill="#E0E0E0"/>
+                    <circle cx="100" cy="80" r="35" fill="#212121"/>
+                    <path d="M80 75 Q90 70 100 75" stroke="rgba(255,255,255,0.3)" stroke-width="5" fill="none" />
+                    <!-- Body -->
+                    <rect x="70" y="120" width="60" height="60" rx="10" fill="#BDBDBD"/>
+                    <rect x="85" y="130" width="30" height="40" rx="5" fill="#9E9E9E"/>
+                    <!-- Arms -->
+                    <rect x="40" y="125" width="30" height="15" rx="7" fill="#BDBDBD"/>
+                    <rect x="130" y="125" width="30" height="15" rx="7" fill="#BDBDBD"/>
+                    <!-- Legs -->
+                    <rect x="75" y="180" width="20" height="20" rx="5" fill="#BDBDBD"/>
+                    <rect x="105" y="180" width="20" height="20" rx="5" fill="#BDBDBD"/>
+                </g>
+            </svg>
+        </div>
+
+        <!-- Scene 4: Date/Time/Place -->
+        <div id="scene4" class="scene">
+            <h2 class="text-3xl font-bold mb-6 text-shadow">Nossa contagem regressiva começou!</h2>
+            <div class="bg-black bg-opacity-30 p-6 rounded-lg">
+                <p class="text-2xl mb-3">Data: <span class="font-bold text-cyan-300">[Data do Evento]</span></p>
+                <p class="text-2xl mb-3">Horário: <span class="font-bold text-cyan-300">[Horário]</span></p>
+                <p class="text-2xl">Local: <span class="font-bold text-cyan-300">[Endereço Completo]</span></p>
+            </div>
+        </div>
+
+        <!-- Scene 5: Gifts -->
+        <div id="scene5" class="scene">
+            <h2 class="text-2xl font-bold mb-4 text-shadow">Sua missão, caso decida aceitar:</h2>
+            <div class="bg-black bg-opacity-30 p-6 rounded-lg text-left">
+                <p class="text-xl mb-3">🚀 Trazer <span class="font-bold text-cyan-300">fraldas</span></p>
+                <p class="text-xl">🎁 E um <span class="font-bold text-cyan-300">mimo</span> para o nosso pequeno explorador.</p>
+            </div>
+        </div>
+        
+        <!-- Scene 6: Important Info -->
+        <div id="scene6" class="scene">
+             <h2 class="text-2xl font-bold mb-4 text-shadow">Observação da torre de controle:</h2>
+             <div class="bg-red-900 bg-opacity-80 p-6 rounded-lg">
+                <p class="text-xl font-bold">Evento sem bebidas alcoólicas.</p>
+             </div>
+        </div>
+
+        <!-- Scene 7: Outro -->
+        <div id="scene7" class="scene">
+            <h2 class="text-3xl font-bold text-shadow">Contamos com a sua presença para completar essa aventura!</h2>
+        </div>
+
+        <div class="controls">
+            <button id="replay" class="control-btn">▶ Repetir Animação</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Star Generation ---
+            const starsContainer = document.getElementById('stars-bg');
+            const containerRect = document.getElementById('video-container').getBoundingClientRect();
+            const numStars = 100;
+
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                const size = Math.random() * 3 + 1;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.animationDelay = `${Math.random() * 2}s`;
+                starsContainer.appendChild(star);
+            }
+
+            // --- Scene Management ---
+            const scenes = document.querySelectorAll('.scene');
+            let currentScene = 0;
+            let sceneTimeout;
+
+            const sceneTimings = [
+                4000,  // Scene 1 (Rocket Launch)
+                4000,  // Scene 2 (Title)
+                4000,  // Scene 3 (Astronaut)
+                5000,  // Scene 4 (Info)
+                5000,  // Scene 5 (Gifts)
+                4000,  // Scene 6 (Alcohol)
+                5000   // Scene 7 (Outro)
+            ];
+
+            function showNextScene() {
+                scenes.forEach(s => s.classList.remove('active'));
+                
+                if (scenes[currentScene]) {
+                    scenes[currentScene].classList.add('active');
+                }
+
+                sceneTimeout = setTimeout(() => {
+                    if (currentScene < scenes.length - 1) {
+                        currentScene++;
+                        showNextScene();
+                    }
+                }, sceneTimings[currentScene]);
+            }
+
+            function startAnimation() {
+                clearTimeout(sceneTimeout);
+                currentScene = 0;
+                // Reset rocket animation
+                const rocketContainer = document.getElementById('rocket-container');
+                rocketContainer.innerHTML = rocketContainer.innerHTML;
+                showNextScene();
+            }
+
+            // --- Controls ---
+            const replayButton = document.getElementById('replay');
+            replayButton.addEventListener('click', startAnimation);
+
+            // --- Initial Start ---
+            startAnimation();
+        });
+    </script>
+
+</body>
+</html>
